@@ -1,0 +1,29 @@
+:root {
+    --bg-primary: #18191A;
+    --bg-secondary: #121212;
+    --bg-tertiary: #18191A;
+    --font-color-primary: white;
+    --button-blue: #00B0FF;
+    --button-green: #387a26;
+    --button-red: #B00020;
+    font-size: 16px;
+  }
+
+body {
+    font-family: 'Helvetica', 'Arial', 'Sans-Serif';
+	background-color: var(--bg-primary);
+	width: 300px;
+    overflow: hidden;
+}
+
+.dashboard {
+    background-color: var(--bg-primary);
+}
+.logo {
+    width: 256px;
+    height: 64px;
+    background-repeat: no-repeat;
+    background-image: url(../ui/logo-with-text.svg);
+    float: left;
+    vertical-align: top;
+}

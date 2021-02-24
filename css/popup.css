@@ -1,0 +1,165 @@
+:root {
+    --bg-primary: #121212;
+    --bg-secondary: #18191A;
+    --font-color-primary: white;
+    --button-blue: #00B0FF;
+    --button-green: #387a26;
+    --button-red: #B00020;
+    font-size: 16px;
+  }
+
+body {
+    font-family: 'Helvetica', 'Sans-Serif';
+	background-color: var(--bg-primary);
+	width: 300px;
+    overflow: hidden;
+}
+
+.logo {
+    width: 128px;
+    height: 32px;
+    background-repeat: no-repeat;
+    background-image: url(../ui/logo-with-text.svg);
+    float: right;
+    vertical-align: top;
+}
+
+.header {
+    min-width: 270px;
+    padding: 6px;
+    padding-bottom: 20px;
+	background-color: var(--bg-secondary);
+    border: 4px solid var(--bg-secondary);
+    border-radius: 15px;
+}
+.header-btns {
+    display: flex;
+    position: absolute;
+    top: 20px;
+    left: 22px;
+  }
+
+.toggle-btn {
+    padding: 0px;
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color:var(--font-color-primary);
+    opacity: 0.5;
+    border: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease opacity;
+}
+
+.toggle-btn:hover {
+  opacity: 1;
+}
+
+.slogan {
+    color:var(--font-color-primary);
+    opacity: 87%;
+    font-size: 9px;
+}
+
+.section {
+    color: var(--font-color-primary);
+    min-width: 270px;
+    font-size: 14px;
+	background-color: var(--bg-secondary);
+    border: 4px solid var(--bg-primary);
+    border-radius: 15px;
+}
+
+.section-title {
+    padding: 4px;
+    opacity: 0.3;
+    text-align: center;
+    font-size: 8px;
+}
+
+.rules {
+    text-align: center;
+}
+.rules-group {
+    border: solid 1px var(--button-blue);
+    opacity: 0.87;
+    display: inline-block;
+    border-radius: 10px;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+input[type=radio] {
+    position: absolute;
+    visibility: hidden;
+    display: none;
+}
+  
+label {
+    color: var(--font-color-primary);
+    opacity: 0.87;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 9px;
+    padding: 6px 20px;
+}
+
+label:hover{
+    opacity: 1;
+}
+input[type=radio]:checked + label {
+    color: var(--font-color-primary);
+    background: var(--button-blue);
+    opacity: 0.87;
+}
+
+input[type=radio]:checked + label:hover {
+    opacity: 1;
+}
+
+#ext-control {
+    text-align: center;
+    display: block;
+}
+
+.actmon {
+    position: relative;
+}
+
+.alt-heading {
+    padding: 12px;
+    opacity: 0.5;
+    font-size:9px;
+}
+
+.wlist-btn {
+    display: hidden;
+    position: absolute;
+    opacity: 0.87;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    text-align: center;
+    color: var(--font-color-primary);
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 8px;
+    cursor: pointer;
+}
+
+.wlist-btn:hover {
+    opacity: 1;
+}
+
+#add-to-whitelist {
+	background-color: var(--button-green);
+    border: 1px solid var(--button-green);
+}
+#remove-whitelist    {
+    background-color: var(--button-red);
+    border: 1px solid var(--button-red);
+}

@@ -1,0 +1,6 @@
+{
+    "selector": "body > div.qc-cmp2-container",
+    "provider": "Quantcast CMP",
+    "action": "hide",
+    "method": "css"
+    }

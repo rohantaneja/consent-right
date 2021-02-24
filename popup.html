@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Consent Right</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+		<link rel="stylesheet" href="css/popup.css" type="text/css">
+		<script src="javascript/popup-handler.js"></script>
+	</head>
+
+	<body>
+		<div class='popup-window'>
+			<div class='header'>
+				<div class="logo"></div>
+				<br>
+				<div class='header-btns'>
+					<button id="toggle-on" class="toggle-btn fa fa-play-circle"></button>
+					<button id="toggle-off" class="toggle-btn fa fa-pause-circle"></button>
+					<button id="dashboard" class="toggle-btn fa fa-cog"></button>
+				</div>
+			</div>
+		</div>
+		<!-- <marquee class='slogan' behavior="slide" direction="right">Consent Dialogues? Rightly Handled.</marquee>
+		-->
+		<div class='rules section'>
+			<div class="rules-group">
+				<!--<input type="radio" id="automate" name="mode"><label for="automate" class="fa fa-robot"> Auto</label>
+				-->
+				<input type="radio" id="minimal" name="mode" checked><label for="minimal" class="fa fa-exclamation-circle"> Minimal</label>
+				<input type="radio" id="full" name="mode"><label for="full" class="fa fa-skull-crossbones"> Full</label>
+			</div>
+			<div class='section-title'>PROTECTION MODE</div>
+		</div>
+		
+		<div class='section' id="ext-control" style="display: none;">
+			<div class='section-title'>EXTENDED CONTROL</div>
+			<div class="rules-group">
+				<!--<input type="radio" id="automate" name="mode"><label for="automate" class="fa fa-robot"> Auto</label>
+				-->
+				<input type="radio" id="rm-allow" name="extended" checked><label for="rm-allow" class="fa fa-exclamation-circle"> Allow Buttons</label>
+				<input type="radio" id="rm-legint" name="extended"><label for="rm-legint" class="fa fa-skull-crossbones"> Legitmate Int</label>
+			</div>
+		</div>
+
+		<div class='stats section'>
+			<div class='block-chart'></div>
+			<div class='alt-heading'>CMPs handled since install</div>
+			<div class='section-title'>STATISTICS</div>
+		</div>
+
+		<div class='actmon section'>
+			<div class='alt-heading'>CMP Detected</div>
+			<div id='active-url'></div>
+			<div class='alt-heading'>Active on</div>
+			<div class='alt-heading'>Whitelisted</div>
+			<div id='active-url'></div>
+			<button id="add-to-whitelist" class="wlist-btn"><i class="fa fa-plus-circle"> Whitelist</i></button>
+			<button id="remove-whitelist" class="wlist-btn"><i class="fa fa-minus-circle"></i> Blacklist</button>
+			<div class='section-title'>ACTIVITY MONITOR</div>
+		</div>
+	</body>
+</html>
