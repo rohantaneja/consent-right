@@ -1,0 +1,37 @@
+[
+    {
+    "mode": "allow",
+    "provider": "OneTrust Consent",
+    "selector": "button#onetrust-accept-btn-handler"
+    },
+    {
+    "mode": "allow",
+    "provider": "OneTrust Consent",
+    "selector": "button#accept-recommended-btn-handler"
+    },
+    {
+    "mode": "allow",
+    "provider": "Cookie Wall",
+    "selector": "button[data-testid='cookie-wall-accept']"
+    },
+    {
+    "mode": "allow",
+    "provider": "Europa Data Protection",
+    "selector": "button.edp-cookies-accept"
+    },
+    {
+    "mode": "allow",
+    "provider": "GDPR.eu Proton Technologies",
+    "selector": "button#a#cn-accept-cookie"
+    },
+    {
+    "mode": "allow",
+    "provider": "QuantCast CMP",
+    "selector": ".qc-cmp2-summary-buttons button[mode='primary']"
+    },
+    {
+    "mode": "allow",
+    "provider": "QuantCast CMP",
+    "selector": ".qc-cmp2-buttons-desktop button[mode='primary']"
+    }
+]

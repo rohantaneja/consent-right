@@ -2,34 +2,33 @@
 
     'use strict';
 
-    let Browser = chrome || browser
-    let utils = {
-
+    let Browser = chrome || browser, utils = {
         noop: function() {},
 
         getDefaultSettings: function() {
             let dfSettings = {};
-            dfSettings['pbShowCount'] = true;
-            dfSettings['pbShowAlert'] = false;
-            dfSettings['pbRunStatus'] = true;
-            dfSettings['pbFilters'] = true;
-            dfSettings['pbWhiteList'] = [];
-            dfSettings['pbUserFilters'] = [];
-
+            dfSettings['crCounter'] = true;
+            dfSettings['crAlert'] = false;
+            dfSettings['crEnabled'] = true;
+            dfSettings['crFilters'] = true;
+            dfSettings['crWList'] = [];
+            dfSettings['crFilterUsers'] = [];
+            dfSettings['cmpMode'] = 1;
+            
             return dfSettings;
         },
 
         getSettings: function(callback) {
-            //Browser.storage.local.set({'pbSettings' : {}}, ()=>{});
+            //Browser.storage.local.set({'crSettings' : {}}, ()=>{});
             //return;
             let self = this;
-            Browser.storage.local.get('pbSettings', function(res) {
+            Browser.storage.local.get('crSettings', function(res) {
                 if((Object.keys(res).length) === 0) {
                     res = self.getDefaultSettings();
                     self.setSettings(res);
                     callback(res);
                 } else {
-                    callback(res.pbSettings);
+                    callback(res.crSettings);
                 }
             });
 
@@ -37,7 +36,7 @@
 
         setSettings: function(settings, callback) {
             callback = (callback === undefined) ? this.noop : callback;
-            Browser.storage.local.set({'pbSettings' : settings}, callback);
+            Browser.storage.local.set({'crSettings' : settings}, callback);
         },
 
         clearSettings: function(callback) {

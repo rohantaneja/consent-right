@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+		<link type="text/css" href="css/dashboard.css" rel="stylesheet">
+		<title>Dashboard - Consent Right</title>
+	</head>
+
+	<body>		
+		<div class="dashboard">
+			<div class="sidebar">
+				<div class="logo"></div>
+				<h4>DASHBOARD<h4>
+				<div>
+					<a href="#" class="nav-item">Home</a>
+					<a href="#" class="nav-item">User Filters</a>
+					<a href="#" class="nav-item">Whitelist</a>
+				</div>
+			</div>
+
+			<div class="content">
+					<div class="content-containers">
+						<h2>Home</h2>
+						<div style="font-size: 12px;">
+							<span style="background-color: #00B0FF; padding: 1%; border-radius: 15px; font-size: 28px;">Consent<b>Right</b></span>
+							<br><br><br>
+							Brought to you by <a href="https://github.com/rohantaneja/" style="background-color: #6468fa; padding: 1%; border-radius: 15px; color: white;">rohantaneja</a>
+						</div>
+						<br>
+						<div style="background-color: #18191A; padding-top: 1%; padding-bottom: 2%; border-radius: 15px;">
+							<h3>Special Mention</h3>
+							<p>
+								<a href="https://iconscout.com/" title="Iconscout - Wide range of reusable icons"><img src ="ui/about/iconscout.png" style="width: 48px; height: 48px;"></img></a>
+								<a href="https://github.com/xd4rker/MinerBlock" title="Ismail Belkacim's MinerBlock - an extension to block crypto-miners"><img src ="ui/about/xd4rker.svg" style="width: 50px; height: 50px; margin-left: 5%;"></img></a>
+								<a href="http://fontawesome.io" title="Font Awesome - Amazing set of font customizations"><img src ="ui/about/fa.png" style="width: 48px; height: 48px; margin-left: 5%;"></img></a>
+							</p>
+						</div>
+						<div style="background-color: #387a26; padding-top: 1%; padding-bottom: 2%; border-radius: 15px; opacity: 0.95; margin-top: 2%;">
+							<h3>Donate To Me</h3>
+							<p>
+							It will help towards my student loans, make a living, and my monthly charity contributions.
+							</p>
+							<a href="https://www.paypal.me/tanejar"><img src="ui/about/paypal.svg" alt="paypal" style="max-width:100%;"></a>
+							<a href="https://www.blockchain.com/btc/payment_request?address=3EFbfUZdkVkF1bhtpzSgWJGH19XHPvh1g7" title="Donate to BTC Wallet"><img src="ui/about/btc.svg" alt="bitcoin" style="max-width:100%; margin-left: 5%;"></a>
+							<a href="https://etherdonation.com/d?to=0xad21A9D932FaF83EED9de2a7331eab16f96Fbbe7" title="Donate to ETH Wallet"><img src="ui/about/eth.svg" alt="ethereum" style="max-width:100%; margin-left: 5%;"></a>
+						</div>
+						<div style="background-color: #B00020; padding: 2%; border-radius: 15px; font-size: 14px; margin-top: 1%;">
+							<input type="checkbox" id="crCounter" class="opt" value="1">
+							<label for="crCounter">Display Elements Counter on Badge</label>
+							<br>
+						</div>
+					</div>
+
+					<div class="content-containers">
+						<h2>User Filters</h2>
+						
+						<div style="background-color: #387a26; padding:0.5%; padding-bottom: 3%; border-radius: 15px; font-size: 14px;">
+							<h4>(Rules To Define Filters)</h4>
+							• Write one filter per line •
+							<br>
+							<br>
+							<span style="font-size: 12px;">(Mode, Name Of Provider, <a href="https://www.w3schools.com/cssref/css_selectors.asp" style="color: white;">CSS Selector</a>)
+							<br>
+							e.g.
+							<br>
+							<code>(allow||li||consent||full,Onetrust Consent,#name-of-id||.name-of-class)</code>
+							</span>
+							<br>
+						</div>
+						<div style="background-color: #18191A; padding:1%; border-radius: 15px;">
+							<h5>Write custom filters in the box below:</h5>
+							<textarea id="crFilterUsers" rows="8" class="opt" style="width: 50%;"></textarea>
+							<br>
+							<button class="btn" id="crSaveUserFilters"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</button>
+						</div>
+					</div>
+					<div class="content-containers">
+						<h2>Whitelisted Domains</h2>
+						<div style="background-color: #18191A; padding:2%; border-radius: 15px;">
+							<p>Consent<b>Right</b> is paused on these websites</p>
+								<select size="8" id="crWList" class="opt" style="width: 60%;"></select><br><br>
+								<input type="text" id="crWhiteListDomain" placeholder="(www.site.com or site.com)" style="width: 40%;">
+								<button class="btn" id="crWhiteListAdd"><i class="fa fa-plus"></i>&nbsp;</button>
+								<button class="btn" id="crWhiteListRemove"><i class="fa fa-minus" aria-hidden="true"></i></button>
+								<p>Click <span style="background-color: #387a26; padding: 1%; border-radius: 15px;">+</span> / <span style="background-color: #B00020; padding: 1%; border-radius: 15px;">-</span> to <span style="background-color: #387a26; padding: 1%; border-radius: 15px;">add</span>/<span style="background-color: #B00020; padding: 1%; border-radius: 15px;">remove</span> a domain</p>
+						</div>
+					</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="javascript/dashboard.js"></script>
+	</body>
+</html>

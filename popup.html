@@ -5,7 +5,6 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
 		<link rel="stylesheet" href="css/popup.css" type="text/css">
-		<script src="javascript/popup-handler.js"></script>
 	</head>
 
 	<body>
@@ -24,39 +23,39 @@
 		-->
 		<div class='rules section'>
 			<div class="rules-group">
-				<!--<input type="radio" id="automate" name="mode"><label for="automate" class="fa fa-robot"> Auto</label>
+				<!-- <input type="radio" id="automate" name="mode"><label for="automate" class="fa fa-robot"> Auto</label> 
 				-->
-				<input type="radio" id="minimal" name="mode" checked><label for="minimal" class="fa fa-exclamation-circle"> Minimal</label>
-				<input type="radio" id="full" name="mode"><label for="full" class="fa fa-skull-crossbones"> Full</label>
+				<input type="radio" id="minimal" name="mode"><label for="minimal" title="Toggle Granular Control">Minimal <span class="fa fa-exclamation-circle"></span></label>
+				<input type="radio" id="full" name="mode"><label for="full" title="Remove Consent Dialogues Completely">Full <span class="fa fa-skull-crossbones"></span></label>
 			</div>
 			<div class='section-title'>PROTECTION MODE</div>
 		</div>
 		
-		<div class='section' id="ext-control" style="display: none;">
+		<div class='ext-control section'>
 			<div class='section-title'>EXTENDED CONTROL</div>
 			<div class="rules-group">
-				<!--<input type="radio" id="automate" name="mode"><label for="automate" class="fa fa-robot"> Auto</label>
-				-->
-				<input type="radio" id="rm-allow" name="extended" checked><label for="rm-allow" class="fa fa-exclamation-circle"> Allow Buttons</label>
-				<input type="radio" id="rm-legint" name="extended"><label for="rm-legint" class="fa fa-skull-crossbones"> Legitmate Int</label>
+				<input type="checkbox" id="rm-allow" name="extended" checked><label for="rm-allow" title="Remove Allow Buttons">Allow</label>
+				<input type="checkbox" id="rm-consent" name="extended"><label for="rm-consent" title="Remove Consent Toggles">Consent</label>
+				<input type="checkbox" id="rm-li" name="extended"><label for="rm-li" title="Remove Legitmate Interest Toggles">Legitmate Interest</label>
 			</div>
 		</div>
 
-		<div class='stats section'>
-			<div class='block-chart'></div>
-			<div class='alt-heading'>CMPs handled since install</div>
-			<div class='section-title'>STATISTICS</div>
+		<div class='status section' style="display: none;">
+			<div style="font-size: 12px; margin: 4%; opacity: 0.5;">The extension is disabled.</div>
+			<div class='section-title'>STATUS</div>
 		</div>
 
-		<div class='actmon section'>
+		<div class='act-mon section'>
 			<div class='alt-heading'>CMP Detected</div>
-			<div id='active-url'></div>
-			<div class='alt-heading'>Active on</div>
-			<div class='alt-heading'>Whitelisted</div>
-			<div id='active-url'></div>
-			<button id="add-to-whitelist" class="wlist-btn"><i class="fa fa-plus-circle"> Whitelist</i></button>
-			<button id="remove-whitelist" class="wlist-btn"><i class="fa fa-minus-circle"></i> Blacklist</button>
+			<span class='blocked-cmp'>No Rule Found</span>
+			<div class='alt-heading'>Currently active site</div>
+			<span class='active-url'></span>
+			<!-- <div class='alt-heading'>Queries Blocked</div>
+			<span class='blocked-nos'>None</span> -->
+			<button id='add-wlist' class="wlist-btn"><i class="fa fa-plus-circle"> Whitelist</i></button>
+			<button id='rm-wlist' class="wlist-btn"><i class="fa fa-minus-circle"> Blacklist</i></button>
 			<div class='section-title'>ACTIVITY MONITOR</div>
 		</div>
+		<script src="javascript/popup-handler.js"></script>
 	</body>
 </html>

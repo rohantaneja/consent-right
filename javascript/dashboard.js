@@ -1,21 +1,16 @@
-(function () {
+'use strict';
 
-    'use strict';
-
-    let Browser = chrome || browser,
-        utils,
-        selectElement;
+const Dashboard = function () {
 
     function loopEls(className, callback) {
         Array.prototype.forEach.call(document.getElementsByClassName(className), callback);
     }
-
+    
     function initOptionPage() {
-        utils = Browser.extension.getBackgroundPage().utils;
-        selectElement = document.getElementById('pbWhiteList');
+        let Browser = chrome || browser, utils = Browser.extension.getBackgroundPage().utils, selectElement = document.getElementById('crWList');
 
-        toggleTab(document.getElementsByClassName('tablinks')[0], 0);
-        loopEls('tablinks', addTabClickListener);
+        toggleTab(document.getElementsByClassName('nav-item')[0], 0);
+        loopEls('nav-item', addTabClickListener);
 
         loopEls('opt', (e) => {
             utils.getOption(e.id, function(value) {
@@ -27,11 +22,14 @@
             }
         });
 
-        loopEls('btn', (e) => {
-            if (e.id === 'pbWhiteListAdd') {
+        loopEls('btn', function(e) {
+            if(e.id === 'crSaveUserFilters') {
+                e.addEventListener('click', saveUserFilters);
+
+            } else if(e.id === 'crWhiteListAdd') {
                 e.addEventListener('click', addWhiteListDomain);
-            }
-            else if (e.id === 'pbWhiteListRemove') {
+
+            } else if(e.id === 'crWhiteListRemove') {
                 e.addEventListener('click', removeWhiteListDomain);
             }
         });
@@ -39,9 +37,9 @@
 
     function removeWhiteListDomain() {
         if(selectElement.selectedIndex !== -1) {
-            utils.getOption('pbWhiteList', function(value) {
+            utils.getOption('crWList', function(value) {
                 value.splice(selectElement.selectedIndex, 1);
-                utils.setOption('pbWhiteList', value, function() {
+                utils.setOption('crWList', value, function() {
                     populateSelect(selectElement, value);
                     notifyBackground();
                 });
@@ -50,12 +48,11 @@
     }
 
     function addWhiteListDomain() {
-        let wdomainEl = document.getElementById('pbWhiteListDomain');
+        let wdomainEl = document.getElementById('crWhiteListDomain');
         let wdomainText = wdomainEl.value.trim();
 
         if (wdomainText.length) {
-            utils.getOption('pbWhiteList', function(value) {
-
+            utils.getOption('crWList', function(value) {
                 if (value === null) {
                     value = [];
                 }
@@ -66,7 +63,7 @@
                 if (isUrlwListed) return;
 
                 value.push(wdomainText);
-                utils.setOption('pbWhiteList', value, function() {
+                utils.setOption('crWList', value, function() {
                     wdomainEl.value = '';
                     populateSelect(selectElement, value);
                     notifyBackground();
@@ -74,6 +71,34 @@
 
             });
         }
+    }
+
+    function saveUserFilters() {
+        let flistElement = document.getElementById('crUserFilters'),
+            dlist;
+
+        flistElement.addEventListener('click', function() {
+            flistElement.style.borderColor = '#ccc';
+        });
+
+        if(flistElement.value.length) {
+            dlist = utils.cleanArray(flistElement.value.split('\n'));
+            let prop;
+            for(prop in dlist) {
+                if(!utils.isValidFilter(dlist[prop])) {
+                    flistElement.style.borderColor = '#d86161';
+                    return;
+                }
+            }
+
+        } else {
+            let dfs = utils.getDefaultSettings();
+            dlist = dfs['crUserFilters'];
+        }
+        utils.setOption('crUserFilters', dlist, function() {
+            flistElement.style.borderColor = '#98af63';
+            notifyBackground();
+        });
     }
 
     function toggleCheckBox(e) {
@@ -116,7 +141,7 @@
     }
 
     function toggleContainers(activeIndex) {
-        loopEls('tab-cnt', function(e, i) {
+        loopEls('content-containers', function(e, i) {
             if(i === activeIndex) {
                 e.style.display = 'block';
             } else {
@@ -129,12 +154,12 @@
         elm.style.backgroundColor = '#fff';
         elm.style.borderBottom = '1px solid #fff';
 
-        loopEls('tablinks', function(el, index) {
+        loopEls('nav-item', function(el, index) {
             if(index === elIndex) {
                 return;
             }
-            el.style.backgroundColor = '#eee';
-            el.style.borderBottom = '1px solid #ccc';
+            el.style.backgroundColor = '#18191A';
+            el.style.borderBottom = '1px solid #18191A';
             toggleContainers(elIndex);
 
         });
@@ -146,4 +171,4 @@
 
     initOptionPage();
 
-}());
+}();

@@ -1,111 +1,121 @@
 'use strict'
 
 const CMPHandler = function() {
+    // let Browser = chrome || browser,utils;
+	// utils = Browser.extension.getBackgroundPage().utils;
 
-	const blocker = {
+	const Blocker = {
 		list: [
-			'[hide|QuantCast CMP] body > div.qc-cmp2-container',
-			'[hide|OneTrust Consent] body > div#onetrust-consent-sdk',
+			/* Allow Buttons */
+			"(allow,OneTrust Consent,button#onetrust-accept-btn-handler)",
+			"(allow,OneTrust Consent,button#accept-recommended-btn-handler)",
+			"(allow,Cookie Wall, button[data-testid='cookie-wall-accept'])",
+			"(allow,Europa Data Protection,button.edp-cookies-accept)",
+			"(allow,GDPR.eu Proton Technologies,a#cn-accept-cookie)",
+			//"(allow,Europe Commission,div#ecsi-body-button-participate-now-wrapper)",
+			"(allow,Europe Commission,a.wt-cck-btn-add)",
+			"(allow,QuantCast CMP,.qc-cmp2-summary-buttons button[mode='primary'])",
+			"(allow,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode='primary'])",
+
+			/* Consent Toggles */ 
+			"(consent,OneTrust Consent,label.ot-switch)",
+			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
+			"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
+
+			/* Legitmate Interests */	
+			// '(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
+
+			// Full Removal 
+			// "(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
+			// "(full,QuantCast CMP, .qc-cmp2-container)",
+			// "(full,OneTrust Consent, #onetrust-consent-sdk)"
 		],
 
-		load : function () {
-			// Create CSS
-			let style = document.createElement('style');
-			style.type = 'text/css';
-			style.textContent = this.craft();
-			document.getElementsByTagName('head')[0].appendChild(style);
+		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
+		encounterElements : [],
+		encounterProvider : '',
+		badgeCounter: 0,
 
-			// Detect Blocks
-			this.checkLimit = 10;
-			this.checkInterval = setInterval(() => {this.check();}, 1000);
-			this.check();
+		init : function () {
+			let element = document.createElement('style'), provider;
+			setTimeout(() => {provider = this.check();}, 3000);
+			element.className="consent-right";
+			setTimeout(() => {element.textContent = this.hide(provider);}, 3000);
+			document.getElementsByTagName('head')[0].appendChild(element);
 		},
 
-		craft : function() {
-			let style = '';
-			//style += this.style.overflowY('body');
-
-			for (let i = 0; i < this.list.length; i++) {
-				let rule = this.list[i].match(/^!?\[([^|]+)\|([^\]]+)\](.+)$/);
-				if (rule && this.style.hasOwnProperty(rule[1])) {
-					style += this.style[rule[1]](rule[3].trim());
-				}
-			}
-
-			return style;
-		},
-
-		checkLimit : 10,
-		checkInterval : null,
-		checkBodyOverflow : false,
-		checkCache : [],
 		check : function() {
-			this.checkLimit--;
-			for (let i = 0; i < this.list.length; i++) {
-				let rule = this.list[i].match(/^\[([^|]+)\|([^\]]+)\](.+)$/);
-				if (rule && this.checkCache.indexOf(rule[2].trim()) < 0 && document.querySelector(rule[3].trim())) {
-					console.log(`[CMP] Blocked "${rule[2].trim()}"`);
-					this.checkCache.push(rule[2].trim());
-					this.reportBack(rule[2].trim());
+			let encounterProvider = '';
+			for (const item of this.list)	{
+				let rule = item.match(this.ruleMatcher);
+				if (rule  
+					&& 
+					document.querySelector(rule[3].trim())) 
+					{
+					this.encounterElements.push(rule[3].trim());
+					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
+					encounterProvider = rule[2].trim();
+					//console.log(encounterProvider);
+					this.report(encounterProvider,this.badgeCounter);
 				}
 			}
-			if (!this.checkBodyOverflow && this.checkCache.length > 0 && document.body.style.overflow.match(/hidden/)) {
-				this.checkBodyOverflow = true;
-				let style = document.createElement('style');
-				style.type = 'text/css';
-				style.textContent = this.style.overflowY('body');
-				document.getElementsByTagName('head')[0].appendChild(style);
-				console.log(`[CMP] Restored page scrolling`);
-			}
-
-			if (this.checkLimit <= 0) {
-				clearInterval(this.checkInterval);
-			}
+			return encounterProvider;
 		},
 
-		reportBack : function(name) {
-			let event = new CustomEvent('cmcmplocked', {
-				detail: {
-					privacyPopUpUrl: name
+		hide : function(provider) {
+			let content = '';
+			for (const item of this.list)	{
+				let rule = item.match(this.ruleMatcher);
+				//console.log(provider);
+				if (rule  && rule[2] == provider) {
+					switch(rule[1])	{
+						case 'full':	{
+							content += this.content.remove(rule[3].trim());
+							content += this.content.scroll('body');
+						}
+						break;
+						case 'allow': {
+							content += this.content.remove(rule[3].trim());
+						}
+						break;
+						case 'consent': {
+							content += this.content.remove(rule[3].trim());
+						}
+						break;
+						case 'li': {
+							content += this.content.remove(rule[3].trim());
+							//let objectAll = document.querySelector(rule[3]).textContent;
+							//objectAll.innerHTML = "OBJECT ALL";
+							//console.log(rule[3].trim());
+							//console.log(document.querySelector(rule[3]));
+							//console.log(document.evaluate("//button[contains(text(),'OBJECT ALL')]", document.body, null, XPathResult.ANY_TYPE, null));
+							//document.evaluate("//button[contains(text(),'OBJECT ALL')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
+						}
+						break;
+					}
 				}
-			});
+			}
+			return content;
+		},
+
+		report : function(name,count) {
+			let event = new CustomEvent('cmpBlocked', 
+			{detail: {cmpName: name, numBlocked: count}});
 			document.dispatchEvent(event);
 		},
 
-		style : {
-			hide : function(identifier) {
-				return identifier + ' {display: none!important;}' + '\n';
+		content : {
+			remove : function(element) {
+				return element + ' {display: none!important;}' + '\n';
 			},
-
-			overflowY : function(identifier) {
-				return identifier + ' {overflow-y: auto!important;}' + '\n';
-			},
-
-			normalDisplay : function(identifier) {
-				return identifier + ' {' +
-					'margin: unset !important;' +
-					'overflow: auto!important;' +
-					'left: unset !important;' +
-					'right: unset !important;' +
-					'top: unset !important;' +
-					'bottom: unset !important;' +
-					'position: unset !important;' +
-				'}' + '\n';
-			},
+			scroll : function(element) {
+				return element + ' {overflow: auto!important;}' + '\n';
+			}
 		}
 	};
 
-	// Load Handler
-	let loaded = false;
-	let load = () => {
-		if (loaded) return;
-		loaded = true;
-		blocker.load();
-	};
-	if (document.readyState == 'interactive' || document.readyState == 'complete') {
-		load();
-	} else {
-		window.addEventListener('DOMContentLoaded', load, true);
-		window.addEventListener('load', load, true);
-	}
+    document.addEventListener('DOMContentLoaded', () => {
+		console.log('CMP-Handler Activated.')
+		Blocker.init();
+	});
 }();

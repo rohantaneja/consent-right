@@ -1,0 +1,39 @@
+{
+	"name": "ConsentRight",
+	"description": "Consent Dialogues? Rightly Handled.",
+	"version": "0.7",
+	"manifest_version": 2,
+	"options_ui":{
+		"page": "dashboard.html",
+		"open_in_tab": true
+	},
+	"background": {
+		"scripts": ["javascript/utils.js", "javascript/background.js", "javascript/cmp-handler.js"],
+		"persistent": true
+	},
+	"content_scripts": [
+		{
+			"run_at": "document_start",
+			"matches": ["<all_urls>"],
+			"js": ["javascript/content.js"]
+		}
+	],
+	"icons": {
+		"19": "ui/on.png",
+		"48": "ui/48.png",
+		"128": "ui/128.png"
+	},
+	"browser_action": {
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"activeTab",
+		"storage",
+		"unlimitedStorage",
+		"tabs",
+		"<all_urls>"
+	],
+	"web_accessible_resources": [
+		"javascript/cmp-handler.js"
+	]
+}
