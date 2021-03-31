@@ -37,9 +37,14 @@ function removewList(url) {
 function updateBadge(mcount, tabId) {
     Browser.browserAction.setBadgeBackgroundColor({color: "green",tabId: tabId});
     Browser.browserAction.setBadgeText({text: String(mcount),tabId: tabId});
+    setTimeout(() => {
+        if(tabId in crTabs) {
+        crTabs[tabId].push(mcount);
+    }}, 2000);
 }
 
 function crAddTab(tabId, rootDomain) {
+    console.log(crTabs);
     if(tabId in crTabs) {
         if(crTabs[tabId].indexOf(rootDomain) === -1){crTabs[tabId].push(rootDomain);}
     } 
@@ -77,7 +82,8 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                             break;
         case 'cmpBlockedOnSite': 
                             {
-                            crAddTab(sender.tab.id, message.cmpName);
+                            setTimeout(() => {crAddTab(sender.tab.id, message.cmpName);},2000);
+                            //console.log(message.numBlocked);
                             if (crSettings['crCounter']) {updateBadge(message.numBlocked, sender.tab.id);}
                             sendResponse({action: 'ok'});
                             }

@@ -12,10 +12,15 @@ const ContentJS = function () {
             document.head.appendChild(script);
         }
     });
-
     document.addEventListener('cmpBlocked', (event) => {
         Browser.runtime.sendMessage({action: 'cmpBlockedOnSite', 
         cmpName : event.detail.cmpName, 
         numBlocked: event.detail.numBlocked}, 
         () => {});}, false);
+
+    // document.addEventListener('getLevel', (event) => {
+    //     Browser.runtime.sendMessage({action: 'cmpBlockedOnSite', 
+    //     cmpName : event.detail.cmpName, 
+    //     numBlocked: event.detail.numBlocked}, 
+    //     () => {});}, false);
 }();

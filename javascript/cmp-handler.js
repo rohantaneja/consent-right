@@ -1,8 +1,7 @@
 'use strict'
 
 const CMPHandler = function() {
-    // let Browser = chrome || browser,utils;
-	// utils = Browser.extension.getBackgroundPage().utils;
+    //let Browser = chrome || browser;
 
 	const Blocker = {
 		list: [
@@ -17,12 +16,14 @@ const CMPHandler = function() {
 			"(allow,QuantCast CMP,.qc-cmp2-summary-buttons button[mode='primary'])",
 			"(allow,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode='primary'])",
 			"(allow,Stack Exchange Cookie,.js-accept-cookies)",
+			"(allow,IEEE Cookie Banner,.cc-compliance)",
 
 			/* Consent Toggles */ 
 			"(consent,OneTrust Consent,label.ot-switch)",
 			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
 			"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
 			"(consent,Stack Exchange Cookie,.s-toggle-switch)",
+			"(consent,IEEE Cookie Banner,.cc-window)",
 			
 			/* Legitmate Interests */	
 			// '(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
@@ -66,16 +67,27 @@ const CMPHandler = function() {
 		},
 
 		hide : function(provider) {
-			let content = '';
+			let content = '', level;
+			// console.log('cmp handler level1 = ' + level)
+			// Browser.onmessage(function(response) {
+			// 	console.log("something happening from the extension");
+			// });
+			// // Browser.extension.sendRequest({action: "cmpMode"}, function(message) { //request
+			// // 	console.log(message.level);           //receive response
+			// //   });
+			// // 	if(message.action == 'cmpMode') level = message.level;
+			// // });
+			// console.log('cmp handler level2 = ' + level)
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
 				if (rule  && rule[2] == provider) {
 					switch(rule[1])	{
 						case 'full':	{
-							//if (level == 1 || level == 3 || level == 5 || level == 7)
+							//if (level == 0) {
 							content += this.content.remove(rule[3].trim());
 							content += this.content.scroll('body');
+							//}
 						}
 						break;
 						case 'allow': {

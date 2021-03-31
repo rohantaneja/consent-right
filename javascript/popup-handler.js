@@ -160,22 +160,20 @@ const PopupHandler = function () {
     }
 
     function counterStats(tabId) {
-        let crTabstmp = Browser.extension.getBackgroundPage().crTabs;
-        //console.log('crTabstmp[tabId][0]');
-        if (tabId in crTabstmp) {
-            // document.querySelector('.blocked-nos').innerText = crTabstmp[tabId].length;
-            //console.log(crTabstmp[tabId][0]);
-            document.querySelector('.blocked-cmp').innerText = crTabstmp[tabId][0];
-        } 
-        // else {
-        //     document.querySelector('.blocked-nos').innerText = 'None';
-        // }
+        let crTabsTemp = Browser.extension.getBackgroundPage().crTabs, currTabArr;
+
+        if (tabId in crTabsTemp) {
+            currTabArr = crTabsTemp[tabId];
+            document.querySelector('.blocked-cmp').innerText = currTabArr[0];
+            document.querySelector('.blocked-nos').innerText = currTabArr[currTabArr.length -1];
+        }
     }
 
     function switchModeToFull() {
         Browser.runtime.sendMessage({action: 'cmpMode', level : 0}, utils.noop);
         Browser.extension.getBackgroundPage().changeMode(0);
     }
+
     function toggleWhitelist(status) {
         document.querySelector('#add-wlist').style.display = (status === true) ? 'none' : '';
         document.getElementById('toggle-off').style.display = (status === true) ? 'none' : '';
