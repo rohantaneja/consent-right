@@ -9,7 +9,7 @@ const PopupHandler = function () {
 
         document.getElementById("dashboard").onclick = () => {Browser.runtime.openOptionsPage();};
         document.getElementById('toggle-on').onclick = () => {
-                Browser.runtime.sendMessage({ action: 'extOn' }, utils.noop);
+                Browser.runtime.sendMessage({ action: 'extOn' });
                 Browser.extension.getBackgroundPage().updateIcon(true);
                 Browser.tabs.reload();
                 window.close();
@@ -161,10 +161,10 @@ const PopupHandler = function () {
 
     function counterStats(tabId) {
         let crTabstmp = Browser.extension.getBackgroundPage().crTabs;
-        console.log('crTabstmp[tabId][0]');
+        //console.log('crTabstmp[tabId][0]');
         if (tabId in crTabstmp) {
             // document.querySelector('.blocked-nos').innerText = crTabstmp[tabId].length;
-            console.log(crTabstmp[tabId][0]);
+            //console.log(crTabstmp[tabId][0]);
             document.querySelector('.blocked-cmp').innerText = crTabstmp[tabId][0];
         } 
         // else {

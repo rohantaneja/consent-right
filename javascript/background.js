@@ -78,8 +78,7 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         case 'cmpBlockedOnSite': 
                             {
                             crAddTab(sender.tab.id, message.cmpName);
-                            if (crSettings['crCounter']) {//console.log(message.numBlocked)
-                                                        updateBadge(message.numBlocked, sender.tab.id);}
+                            if (crSettings['crCounter']) {updateBadge(message.numBlocked, sender.tab.id);}
                             sendResponse({action: 'ok'});
                             }
                             break;

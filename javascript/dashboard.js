@@ -6,9 +6,10 @@ const Dashboard = function () {
         Array.prototype.forEach.call(document.getElementsByClassName(className), callback);
     }
     
-    function initOptionPage() {
-        let Browser = chrome || browser, utils = Browser.extension.getBackgroundPage().utils, selectElement = document.getElementById('crWList');
+    let Browser = chrome || browser, utils = Browser.extension.getBackgroundPage().utils, selectElement = document.getElementById('crWList');
 
+    function initOptionPage() {
+        
         toggleTab(document.getElementsByClassName('nav-item')[0], 0);
         loopEls('nav-item', addTabClickListener);
 
