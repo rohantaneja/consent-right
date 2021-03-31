@@ -1,7 +1,7 @@
 <div align="center"><img alt="Logo" src="https://raw.githubusercontent.com/rohantaneja/ConsentRight/main/ui/128.png" width="100" /></div>
 <p align="center">Consent<b>Right</b> is a Cross-Browser Web Extension to gain control over consent choices.</p>
 <p align="center">
-  <a href="#" target="_blank">
+  <a href="" target="_blank">
     <img src="https://raw.githubusercontent.com/rohantaneja/ConsentRight/main/ui/preview.png" alt="Preview" />
   </a>
 </p>
