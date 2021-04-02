@@ -188,7 +188,7 @@ input[type=checkbox]:checked + label:hover {
 }
 
 .blocked-nos {
-    background-color: #00B0FF; 
+    background-color: #3d5afe; 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;

@@ -17,13 +17,20 @@ const CMPHandler = function() {
 			"(allow,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode='primary'])",
 			"(allow,Stack Exchange Cookie,.js-accept-cookies)",
 			"(allow,IEEE Cookie Banner,.cc-compliance)",
+			"(allow,w3Schools Consent,#accept-choices)",
+			"(allow,Google Consent,div[class='jyfHyd'])",
 
 			/* Consent Toggles */ 
 			"(consent,OneTrust Consent,label.ot-switch)",
 			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
-			"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
+			//"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
 			"(consent,Stack Exchange Cookie,.s-toggle-switch)",
 			"(consent,IEEE Cookie Banner,.cc-window)",
+			"(consent,Google Consent,button[aria-label='Turn on Search customization'])",
+			"(consent,Google Consent,button[aria-label='Turn on YouTube History'])",
+			"(consent,Google Consent,button[aria-label='Turn on Ad personalization'])",
+			"(consent,Google Consent,button[aria-label='Turn on Ad personalization on Google Search'])",
+			"(consent,Google Consent,button[aria-label='Turn on Ad personalization on YouTube & across the web'])",
 			
 			/* Legitmate Interests */	
 			// '(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
@@ -68,16 +75,11 @@ const CMPHandler = function() {
 
 		hide : function(provider) {
 			let content = '', level;
-			// console.log('cmp handler level1 = ' + level)
-			// Browser.onmessage(function(response) {
-			// 	console.log("something happening from the extension");
-			// });
-			// // Browser.extension.sendRequest({action: "cmpMode"}, function(message) { //request
-			// // 	console.log(message.level);           //receive response
-			// //   });
-			// // 	if(message.action == 'cmpMode') level = message.level;
-			// // });
-			// console.log('cmp handler level2 = ' + level)
+			
+			document.addEventListener('msgcrLevel', (event) => {
+				level = event.detail.level});
+
+			console.log(level);
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
@@ -119,8 +121,8 @@ const CMPHandler = function() {
 		},
 
 		report : function(name,count) {
-			let event = new CustomEvent('cmpBlocked', 
-			{detail: {cmpName: name, numBlocked: count}});
+			let event = new CustomEvent('sendcmpinfo', {detail: {provider: name, counter: count}});
+			//console.log(event);
 			document.dispatchEvent(event);
 		},
 

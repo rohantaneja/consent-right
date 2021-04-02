@@ -9,14 +9,14 @@ const PopupHandler = function () {
 
         document.getElementById("dashboard").onclick = () => {Browser.runtime.openOptionsPage();};
         document.getElementById('toggle-on').onclick = () => {
-                Browser.runtime.sendMessage({ action: 'extOn' });
+                Browser.runtime.sendMessage({ action: 'toggle:enable-extension' });
                 Browser.extension.getBackgroundPage().updateIcon(true);
                 Browser.tabs.reload();
                 window.close();
             };
 
         document.getElementById('toggle-off').onclick = () => {
-                Browser.runtime.sendMessage({ action: 'extOff' }, utils.noop);
+                Browser.runtime.sendMessage({ action: 'toggle:disable-extension' }, utils.noop);
                 Browser.extension.getBackgroundPage().updateIcon(false);
                 Browser.tabs.reload();
                 window.close();
@@ -27,7 +27,7 @@ const PopupHandler = function () {
                 if(!tabs) {return;}
                 let ctab = tabs[0];
                 if(utils.isSpecialTab(ctab)) {return;}
-                Browser.runtime.sendMessage({action: 'addWlist', tab : ctab}, utils.noop);
+                Browser.runtime.sendMessage({action: 'whitelist:add-domain', tab : ctab}, utils.noop);
                 Browser.tabs.reload(ctab.tabId);
                 window.close();
             });
@@ -37,7 +37,7 @@ const PopupHandler = function () {
             Browser.tabs.query({active: true, currentWindow: true}, function(tabs) {
                 if(!tabs) {return;}
                 let ctab = tabs[0];
-                Browser.runtime.sendMessage({action: 'removeWlist', tab : ctab}, utils.noop);
+                Browser.runtime.sendMessage({action: 'whitelist:remove-domain', tab : ctab}, utils.noop);
                 Browser.tabs.reload(ctab.tabId);
                 window.close();
             });
@@ -50,7 +50,7 @@ const PopupHandler = function () {
         };
 
         document.getElementById('minimal').onclick = () => {
-            Browser.runtime.sendMessage({action: 'cmpMode', level : 1}, utils.noop);
+            Browser.runtime.sendMessage({action: 'toggle:change-level', level : 1}, utils.noop);
             Browser.extension.getBackgroundPage().changeMode(1);
             toggleMode();
             Browser.tabs.reload();
@@ -170,7 +170,7 @@ const PopupHandler = function () {
     }
 
     function switchModeToFull() {
-        Browser.runtime.sendMessage({action: 'cmpMode', level : 0}, utils.noop);
+        Browser.runtime.sendMessage({action: 'toggle:change-level', level : 0}, utils.noop);
         Browser.extension.getBackgroundPage().changeMode(0);
     }
 
@@ -192,7 +192,7 @@ const PopupHandler = function () {
         document.querySelector('.act-mon').style.display = (status === true) ? '' : 'none';
                 
         //console.log('test')
-        utils.getOption('cmpMode', function(level) {
+        utils.getOption('crLevel', function(level) {
         document.querySelector('.ext-control').style.display = (status === true && level > 0) ? '' : 'none';
         document.getElementById('full').checked = (level === 0) ? true : false;
         document.getElementById('minimal').checked = (level > 0) ? true : false;
@@ -204,40 +204,40 @@ const PopupHandler = function () {
     }
 
     function toggleMode() {
-        utils.getOption('cmpMode', function(level) {
+        utils.getOption('crLevel', function(level) {
         //console.log(level)
             if (document.getElementById('rm-allow').checked && document.getElementById('rm-consent').checked && document.getElementById('rm-li').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 7}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 7}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(7);
                 return;
             }
             if (document.getElementById('rm-consent').checked && document.getElementById('rm-li').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 6}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 6}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(6);
                 return;
             }
             if (document.getElementById('rm-allow').checked && document.getElementById('rm-li').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 5}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 5}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(5);
                 return;
             }
             if (document.getElementById('rm-li').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 4}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 4}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(4);
                 return;
             }
             if (document.getElementById('rm-allow').checked && document.getElementById('rm-consent').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 3}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 3}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(3);
                 return;
             }
             if (document.getElementById('rm-consent').checked)   {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 2}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 2}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(2);
                 return;
             }
             if (document.getElementById('rm-allow').checked)    {
-                Browser.runtime.sendMessage({action: 'cmpMode', level : 1}, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:change-level', level : 1}, utils.noop);
                 Browser.extension.getBackgroundPage().changeMode(1);
                 return;
             }

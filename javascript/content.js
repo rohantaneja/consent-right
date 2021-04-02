@@ -4,23 +4,15 @@ const ContentJS = function () {
     
     let Browser = chrome || browser;
 
-    Browser.runtime.sendMessage({action: 'getExtKillStatus', url: location.host}, (res) => {
-        if (res.extKillStatus) {
+    Browser.runtime.sendMessage({action: 'signal:extension-status', url: location.host}, (event) => {
+        if (event.extensionStatus) {
             let script = document.createElement('script');
-            script.setAttribute('type', 'text/javascript');
-            script.setAttribute('src', Browser.extension.getURL('javascript/cmp-handler.js'));
-            document.head.appendChild(script);
+            script.src = Browser.extension.getURL('javascript/cmp-handler.js');
+            document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
         }
     });
-    document.addEventListener('cmpBlocked', (event) => {
-        Browser.runtime.sendMessage({action: 'cmpBlockedOnSite', 
-        cmpName : event.detail.cmpName, 
-        numBlocked: event.detail.numBlocked}, 
-        () => {});}, false);
-
-    // document.addEventListener('getLevel', (event) => {
-    //     Browser.runtime.sendMessage({action: 'cmpBlockedOnSite', 
-    //     cmpName : event.detail.cmpName, 
-    //     numBlocked: event.detail.numBlocked}, 
-    //     () => {});}, false);
+    document.addEventListener('sendcmpinfo', (event) => {
+        Browser.runtime.sendMessage({action: 'info:retrieve-counter', 
+        provider : event.detail.provider, 
+        counter: event.detail.counter},() => {});}, false);
 }();

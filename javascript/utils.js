@@ -13,7 +13,7 @@
             dfSettings['crFilters'] = true;
             dfSettings['crWList'] = [];
             dfSettings['crFilterUsers'] = [];
-            dfSettings['cmpMode'] = 1;
+            dfSettings['crLevel'] = 0;
             
             return dfSettings;
         },

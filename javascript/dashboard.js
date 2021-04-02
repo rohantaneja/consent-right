@@ -167,7 +167,7 @@ const Dashboard = function () {
     }
 
     function notifyBackground() {
-        Browser.runtime.sendMessage({action: 'optionUpdated'}, utils.noop);
+        Browser.runtime.sendMessage({action: 'status:retrieve-settings'}, utils.noop);
     }
 
     initOptionPage();

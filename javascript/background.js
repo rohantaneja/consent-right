@@ -11,8 +11,8 @@ function updateIcon(status, ctabId) {
 }
 function changeMode(level) {
     //console.log(level)
-    crSettings['cmpMode'] = level;
-    utils.setOption('cmpMode', level, utils.noop);
+    crSettings['crLevel'] = level;
+    utils.setOption('crLevel', level, utils.noop);
 }
 function changeStatus(status) {
     crSettings['crEnabled'] = status;
@@ -44,7 +44,7 @@ function updateBadge(mcount, tabId) {
 }
 
 function crAddTab(tabId, rootDomain) {
-    console.log(crTabs);
+    // console.log(crTabs);
     if(tabId in crTabs) {
         if(crTabs[tabId].indexOf(rootDomain) === -1){crTabs[tabId].push(rootDomain);}
     } 
@@ -55,10 +55,10 @@ function crAddTab(tabId, rootDomain) {
 
 Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     switch (message.action) {
-        case 'extOff':  changeStatus(false);    break;
-        case 'extOn':   changeStatus(true);     break;
-        case 'cmpMode': changeMode(message.level);     break;
-        case 'addWlist':    {        
+        case 'toggle:disable-extension':    changeStatus(false);    break;
+        case 'toggle:enable-extension':     changeStatus(true);     break;
+        case 'toggle:change-level':       changeMode(message.level);  break;
+        case 'whitelist:add-domain':    {        
                             let domain = utils.getDomain(message.tab.url);
                             addwList(domain);
                             if  (message.tab.id in crTabs) {delete crTabs[message.tab.id];}
@@ -66,32 +66,39 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                             if  (tabwIndex < 0) {crwListTabs.push(message.tab.id);}
                             }
                             break;
-        case 'removeWlist': {
+        case 'whitelist:remove-domain': {
                             let domain = utils.getDomain(message.tab.url);
                             removewList(domain);
                             let tabwIndex = crwListTabs.indexOf(message.tab.id);
                             if(tabwIndex > -1) {crwListTabs.splice(tabwIndex, 1);}
                             }
                             break;
-        case 'optionUpdated': 
+        case 'status:retrieve-settings': 
                             {
-                            urls = [];
-                            crwListTabs = [];
+                            urls = []; crwListTabs = [];
                             initBackground();
                             }
                             break;
-        case 'cmpBlockedOnSite': 
+        case 'info:retrieve-counter': 
                             {
-                            setTimeout(() => {crAddTab(sender.tab.id, message.cmpName);},2000);
+                            setTimeout(() => {crAddTab(sender.tab.id, message.provider);},2000);
                             //console.log(message.numBlocked);
-                            if (crSettings['crCounter']) {updateBadge(message.numBlocked, sender.tab.id);}
+                            
+                            var msgcrLevel = new CustomEvent('msgcrLevel', {detail: {
+                                level: crSettings['crLevel']
+                              }
+                            });
+                            //console.log(msgcrLevel);
+                            document.dispatchEvent(msgcrLevel);
+                            
+                            if (crSettings['crCounter']) {updateBadge(message.counter, sender.tab.id);}
                             sendResponse({action: 'ok'});
                             }
                             break;
-        case 'getExtKillStatus':
+        case 'signal:extension-status':
                             {
-                            if (crSettings['crEnabled'] === false) {sendResponse({extKillStatus: false});}
-                            else {let isUrlwListed = utils.checkWhiteList(utils.getDomain(message.url), crSettings['crWList']); sendResponse({extKillStatus: !isUrlwListed});}
+                            if (crSettings['crEnabled'] === false) {sendResponse({extensionStatus: false});}
+                            else {let isUrlwListed = utils.checkWhiteList(utils.getDomain(message.url), crSettings['crWList']); sendResponse({extensionStatus: !isUrlwListed});}
                             }
                             break;
     }
