@@ -12,6 +12,9 @@ function updateIcon(status, ctabId) {
 function changeMode(level) {
     //console.log(level)
     crSettings['crLevel'] = level;
+    Browser.tabs.query({active: true}, function(tabs) {
+        Browser.tabs.sendMessage({action: "message:set-Level", level: level});
+    });
     utils.setOption('crLevel', level, utils.noop);
 }
 function changeStatus(status) {
@@ -55,8 +58,8 @@ function crAddTab(tabId, rootDomain) {
 
 Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     switch (message.action) {
-        case 'toggle:disable-extension':    changeStatus(false);    break;
-        case 'toggle:enable-extension':     changeStatus(true);     break;
+        case 'toggle:disable-extension':  changeStatus(false);        break;
+        case 'toggle:enable-extension':   changeStatus(true);         break;
         case 'toggle:change-level':       changeMode(message.level);  break;
         case 'whitelist:add-domain':    {        
                             let domain = utils.getDomain(message.tab.url);
@@ -83,14 +86,6 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                             {
                             setTimeout(() => {crAddTab(sender.tab.id, message.provider);},2000);
                             //console.log(message.numBlocked);
-                            
-                            var msgcrLevel = new CustomEvent('msgcrLevel', {detail: {
-                                level: crSettings['crLevel']
-                              }
-                            });
-                            //console.log(msgcrLevel);
-                            document.dispatchEvent(msgcrLevel);
-                            
                             if (crSettings['crCounter']) {updateBadge(message.counter, sender.tab.id);}
                             sendResponse({action: 'ok'});
                             }

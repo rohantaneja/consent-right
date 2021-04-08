@@ -11,7 +11,7 @@ const CMPHandler = function() {
 			"(allow,Cookie Wall, button[data-testid='cookie-wall-accept'])",
 			"(allow,Europa Data Protection,button.edp-cookies-accept)",
 			"(allow,GDPR.eu Proton Technologies,a#cn-accept-cookie)",
-			//"(allow,Europe Commission,div#ecsi-body-button-participate-now-wrapper)",
+			"(allow,Europe Commission,div#ecsi-body-button-participate-now-wrapper)",
 			"(allow,Europe Commission,a.wt-cck-btn-add)",
 			"(allow,QuantCast CMP,.qc-cmp2-summary-buttons button[mode='primary'])",
 			"(allow,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode='primary'])",
@@ -22,23 +22,25 @@ const CMPHandler = function() {
 
 			/* Consent Toggles */ 
 			"(consent,OneTrust Consent,label.ot-switch)",
+			"(consent,OneTrust Consent,div.ot-toggle)",
 			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
 			//"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
 			"(consent,Stack Exchange Cookie,.s-toggle-switch)",
 			"(consent,IEEE Cookie Banner,.cc-window)",
-			"(consent,Google Consent,button[aria-label='Turn on Search customization'])",
-			"(consent,Google Consent,button[aria-label='Turn on YouTube History'])",
-			"(consent,Google Consent,button[aria-label='Turn on Ad personalization'])",
-			"(consent,Google Consent,button[aria-label='Turn on Ad personalization on Google Search'])",
-			"(consent,Google Consent,button[aria-label='Turn on Ad personalization on YouTube & across the web'])",
+			// "(consent,Google Consent,button[aria-label='Turn on Search customization'])",
+			// "(consent,Google Consent,button[aria-label='Turn on YouTube History'])",
+			// "(consent,Google Consent,button[aria-label='Turn on Ad personalization'])",
+			// "(consent,Google Consent,button[aria-label='Turn on Ad personalization on Google Search'])",
+			// "(consent,Google Consent,button[aria-label='Turn on Ad personalization on YouTube & across the web'])",
 			
-			/* Legitmate Interests */	
-			// '(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
+			/* Legitimate Interests */	
+			'(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
 
 			// Full Removal 
-			// "(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
-			// "(full,QuantCast CMP, .qc-cmp2-container)",
-			// "(full,OneTrust Consent, #onetrust-consent-sdk)"
+			"(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
+			"(full,Google Consent,div[role='dialog'])",
+			"(full,QuantCast CMP, .qc-cmp2-container)",
+			"(full,OneTrust Consent, #onetrust-consent-sdk)"
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -75,9 +77,13 @@ const CMPHandler = function() {
 
 		hide : function(provider) {
 			let content = '', level;
-			
-			document.addEventListener('msgcrLevel', (event) => {
-				level = event.detail.level});
+			// document.addEventListener(function (response, sendResponse) {
+			// 	console.log(response);
+	 		//  });
+			// document.addEventListener(function(message, sender, sendResponse) {
+			// 	if(message.action == 'message:set-Level')
+			// 	console.log(message.level);
+	  		// });
 
 			console.log(level);
 			for (const item of this.list)	{

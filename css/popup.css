@@ -182,9 +182,9 @@ input[type=checkbox]:checked + label:hover {
     border: 1px solid #00B0FF;
 }
 #rm-wlist {
-    background-color: #B00020; 
+    background-color: #ff8c00; 
     color: black;
-    border: 1px solid #B00020;
+    border: 1px solid #ff8c00;
 }
 
 .blocked-nos {
@@ -196,7 +196,7 @@ input[type=checkbox]:checked + label:hover {
 }
 
 .blocked-cmp {
-    background-color: #387a26; 
+    background-color: #B00020; 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;
@@ -204,7 +204,7 @@ input[type=checkbox]:checked + label:hover {
 }
 
 .active-url {
-    background-color: #B00020; 
+    background-color: #387a26; 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;

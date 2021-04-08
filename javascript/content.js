@@ -6,13 +6,15 @@ const ContentJS = function () {
 
     Browser.runtime.sendMessage({action: 'signal:extension-status', url: location.host}, (event) => {
         if (event.extensionStatus) {
-            let script = document.createElement('script');
+            var script = document.createElement('script');
             script.src = Browser.extension.getURL('javascript/cmp-handler.js');
             document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
         }
     });
-    document.addEventListener('sendcmpinfo', (event) => {
+
+    window.addEventListener('sendcmpinfo', (event) => {
         Browser.runtime.sendMessage({action: 'info:retrieve-counter', 
-        provider : event.detail.provider, 
-        counter: event.detail.counter},() => {});}, false);
+        provider : event.detail.provider,
+        counter: event.detail.counter},() => {});
+    }, false);
 }();

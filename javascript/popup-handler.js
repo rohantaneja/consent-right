@@ -9,14 +9,14 @@ const PopupHandler = function () {
 
         document.getElementById("dashboard").onclick = () => {Browser.runtime.openOptionsPage();};
         document.getElementById('toggle-on').onclick = () => {
-                Browser.runtime.sendMessage({ action: 'toggle:enable-extension' });
+                Browser.runtime.sendMessage({action:'toggle:enable-extension'});
                 Browser.extension.getBackgroundPage().updateIcon(true);
                 Browser.tabs.reload();
                 window.close();
             };
 
         document.getElementById('toggle-off').onclick = () => {
-                Browser.runtime.sendMessage({ action: 'toggle:disable-extension' }, utils.noop);
+                Browser.runtime.sendMessage({action: 'toggle:disable-extension'});
                 Browser.extension.getBackgroundPage().updateIcon(false);
                 Browser.tabs.reload();
                 window.close();
@@ -27,7 +27,7 @@ const PopupHandler = function () {
                 if(!tabs) {return;}
                 let ctab = tabs[0];
                 if(utils.isSpecialTab(ctab)) {return;}
-                Browser.runtime.sendMessage({action: 'whitelist:add-domain', tab : ctab}, utils.noop);
+                Browser.runtime.sendMessage({action: 'whitelist:add-domain', tab : ctab});
                 Browser.tabs.reload(ctab.tabId);
                 window.close();
             });
@@ -37,7 +37,7 @@ const PopupHandler = function () {
             Browser.tabs.query({active: true, currentWindow: true}, function(tabs) {
                 if(!tabs) {return;}
                 let ctab = tabs[0];
-                Browser.runtime.sendMessage({action: 'whitelist:remove-domain', tab : ctab}, utils.noop);
+                Browser.runtime.sendMessage({action: 'whitelist:remove-domain', tab : ctab});
                 Browser.tabs.reload(ctab.tabId);
                 window.close();
             });
@@ -50,7 +50,7 @@ const PopupHandler = function () {
         };
 
         document.getElementById('minimal').onclick = () => {
-            Browser.runtime.sendMessage({action: 'toggle:change-level', level : 1}, utils.noop);
+            Browser.runtime.sendMessage({action: 'toggle:change-level', level : 1});
             Browser.extension.getBackgroundPage().changeMode(1);
             toggleMode();
             Browser.tabs.reload();
