@@ -12,9 +12,6 @@ function updateIcon(status, ctabId) {
 function changeMode(level) {
     //console.log(level)
     crSettings['crLevel'] = level;
-    Browser.tabs.query({active: true}, function(tabs) {
-        Browser.tabs.sendMessage({action: "message:set-Level", level: level});
-    });
     utils.setOption('crLevel', level, utils.noop);
 }
 function changeStatus(status) {
@@ -93,7 +90,9 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
         case 'signal:extension-status':
                             {
                             if (crSettings['crEnabled'] === false) {sendResponse({extensionStatus: false});}
-                            else {let isUrlwListed = utils.checkWhiteList(utils.getDomain(message.url), crSettings['crWList']); sendResponse({extensionStatus: !isUrlwListed});}
+                            else {let isUrlwListed = utils.checkWhiteList(utils.getDomain(message.url), crSettings['crWList']); 
+                            console.log(crSettings['crLevel']);
+                            sendResponse({extensionStatus: !isUrlwListed, level: crSettings['crLevel']});}
                             }
                             break;
     }
