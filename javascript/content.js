@@ -10,7 +10,7 @@ const ContentJS = function () {
                 var script = document.createElement('script');
                 script.src = Browser.extension.getURL('javascript/full.js');
                 script.type='text/javascript';
-                document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
+                document.head.appendChild(script);
             }
             else {
                 var minimal = ["javascript/allow.js", "javascript/toggles.js", "javascript/li.js"];
@@ -18,19 +18,19 @@ const ContentJS = function () {
                     var script = document.createElement('script');
                     script.src = Browser.extension.getURL(minimal[0]);
                     script.type='text/javascript';
-                    document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
+                    document.head.appendChild(script);
                 }
                 if (event.level == 2 || event.level == 3 || event.level == 6 || event.level == 7){
                     var script = document.createElement('script');
                     script.src = Browser.extension.getURL(minimal[1]);
                     script.type='text/javascript';
-                    document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
+                    document.head.appendChild(script);
                 }
                 if (event.level == 4 || event.level == 5 || event.level == 6 || event.level == 7){
                     var script = document.createElement('script');
                     script.src = Browser.extension.getURL(minimal[2]);
                     script.type='text/javascript';
-                    document.documentElement.insertBefore(script, document.documentElement.childNodes[0]);
+                    document.head.appendChild(script);
                 }
             }
         }

@@ -9,7 +9,7 @@ const CMPHandlerToggles = function() {
 			"(consent,OneTrust Consent,label.ot-switch)",
 			"(consent,OneTrust Consent,div.ot-toggle)",
 			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
-			"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
+			//"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
 			"(consent,Stack Exchange Cookie,.s-toggle-switch)",
 			"(consent,IEEE Cookie Banner,.cc-window)",
 			"(consent,Google Consent,button[aria-label='Turn on Search customization'])",
@@ -26,10 +26,12 @@ const CMPHandlerToggles = function() {
 
 		init : function () {
 			let element = document.createElement('style'), provider;
-			setTimeout(() => {provider = this.check();}, 2000);
-			element.className="consent-right";
-			setTimeout(() => {element.textContent = this.hide(provider);}, 2000);
-			document.getElementsByTagName('head')[0].appendChild(element);
+			setTimeout(() => {
+				provider = this.check();
+				element.className="consent-right-toggles";
+				element.textContent = this.hide(provider);
+				document.head.appendChild(element);
+			}, 2000);
 		},
 
 		check : function() {
@@ -65,7 +67,7 @@ const CMPHandlerToggles = function() {
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
-				if (rule  && rule[2] == provider) {
+				if (rule) {
 					content += this.content.remove(rule[3].trim());
 				}
 			}

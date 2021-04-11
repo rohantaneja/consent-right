@@ -6,10 +6,11 @@ const CMPHandlerFull = function() {
 	const Blocker = {
 		list: [
 			/* Full Removal */
-			"(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
+			"(full,OneTrust Consent, #onetrust-consent-sdk)",
 			"(full,Google Consent,div[role='dialog'])",
+			"(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
 			"(full,QuantCast CMP, .qc-cmp2-container)",
-			"(full,OneTrust Consent, #onetrust-consent-sdk)"
+			"(full,DSCH.ie Cookie Modal, #js-cookie-consent)"
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -37,18 +38,19 @@ const CMPHandlerFull = function() {
 					this.encounterElements.push(rule[3].trim());
 					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
 					encounterProvider = rule[2].trim();
-					//console.log(encounterProvider);
+					console.log(encounterProvider);
 					this.report(encounterProvider,this.badgeCounter);
+					return encounterProvider;
 				}
 			}
-			return encounterProvider;
+			return 'None';
 		},
 
 		hide : function(provider) {
 			let content = '';
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
-				if (rule  && rule[2] == provider) {
+				if (rule) {
 							content += this.content.remove(rule[3].trim());
 							content += this.content.scroll('body');
 				}

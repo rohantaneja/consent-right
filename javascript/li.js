@@ -6,7 +6,8 @@ const CMPHandlerLI = function() {
 	const Blocker = {
 		list: [
 			/* Legitimate Interests */	
-			'(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])'
+			'(li,QuantCast CMP,div[class="qc-cmp2-toggle-switch"])',
+			//'(li,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode="secondary"])'
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -16,10 +17,13 @@ const CMPHandlerLI = function() {
 
 		init : function () {
 			let element = document.createElement('style'), provider;
-			setTimeout(() => {provider = this.check();}, 2000);
-			element.className="consent-right";
-			setTimeout(() => {element.textContent = this.hide(provider);}, 2000);
-			document.getElementsByTagName('head')[0].appendChild(element);
+			setTimeout(() => {
+				provider = this.check();
+				element.className="consent-right-li";
+				element.textContent = this.hide(provider);
+				document.head.appendChild(element);
+			}, 2000);
+
 		},
 
 		check : function() {
@@ -46,14 +50,17 @@ const CMPHandlerLI = function() {
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
-				if (rule  && rule[2] == provider) {
+				if (rule) {
 							content += this.content.remove(rule[3].trim());
-							//let objectAll = document.querySelector(rule[3]).textContent;
-							//objectAll.innerHTML = "OBJECT ALL";
-							//console.log(rule[3].trim());
-							//console.log(document.querySelector(rule[3]));
-							//console.log(document.evaluate("//button[contains(text(),'OBJECT ALL')]", document.body, null, XPathResult.ANY_TYPE, null));
-							//document.evaluate("//button[contains(text(),'OBJECT ALL')]", document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null).snapshotItem(0).click();
+							setTimeout(function()	{
+								if(!document.querySelector(".qc-cmp2-list-item-legitimate")) {
+									return;
+								}
+								else
+								{
+									document.querySelector(".qc-cmp2-buttons-desktop button[mode='secondary']").click();
+								}
+							},6000);
 				}
 			}
 			return content;

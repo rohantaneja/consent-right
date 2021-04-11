@@ -6,7 +6,7 @@ const CMPHandlerAllow = function() {
 		list: [
 			/* Allow Buttons */
 			"(allow,OneTrust Consent,button#onetrust-accept-btn-handler)",
-			"(allow,OneTrust Consent,button#accept-recommended-btn-handler)",
+			"(allow,OneTrust Consent,#accept-recommended-btn-handler)",
 			"(allow,Cookie Wall, button[data-testid='cookie-wall-accept'])",
 			"(allow,Europa Data Protection,button.edp-cookies-accept)",
 			"(allow,GDPR.eu Proton Technologies,a#cn-accept-cookie)",
@@ -17,7 +17,8 @@ const CMPHandlerAllow = function() {
 			"(allow,Stack Exchange Cookie,.js-accept-cookies)",
 			"(allow,IEEE Cookie Banner,.cc-compliance)",
 			"(allow,w3Schools Consent,#accept-choices)",
-			"(allow,Google Consent,div[class='jyfHyd'])"
+			"(allow,Google Consent,div[class='jyfHyd'])",
+			"(allow,DSCH.ie Cookie Modal,button[data-tracking='cc-accept'])"
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -27,15 +28,16 @@ const CMPHandlerAllow = function() {
 
 		init : function () {
 			let element = document.createElement('style'), provider;
-			setTimeout(() => {provider = this.check();}, 2000);
-			element.className="consent-right";
-			setTimeout(() => {element.textContent = this.hide(provider);}, 2000);
-			document.getElementsByTagName('head')[0].appendChild(element);
+			setTimeout(() => {
+				provider = this.check();
+				element.className="consent-right-allow";
+				element.textContent = this.hide(provider);
+				document.head.appendChild(element);
+			}, 2000);
 		},
 
 		check : function() {
 			let encounterProvider = '';
-			//console.log('encounterProvider');
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				if (rule  
@@ -45,7 +47,6 @@ const CMPHandlerAllow = function() {
 					this.encounterElements.push(rule[3].trim());
 					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
 					encounterProvider = rule[2].trim();
-					//console.log(encounterProvider);
 					this.report(encounterProvider,this.badgeCounter);
 				}
 			}
@@ -57,8 +58,8 @@ const CMPHandlerAllow = function() {
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
-				if (rule  && rule[2] == provider) {
-								content += this.content.remove(rule[3].trim());
+				if (rule) {
+					content += this.content.remove(rule[3].trim());
 				}
 			}
 			return content;
