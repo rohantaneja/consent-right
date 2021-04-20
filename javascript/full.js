@@ -10,7 +10,8 @@ const CMPHandlerFull = function() {
 			"(full,Google Consent,div[role='dialog'])",
 			"(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
 			"(full,QuantCast CMP, .qc-cmp2-container)",
-			"(full,DSCH.ie Cookie Modal, #js-cookie-consent)"
+			"(full,DSCH.ie Cookie Modal, #js-cookie-consent)",
+			"(full,Didomi, #didomi-popup)",
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -38,7 +39,7 @@ const CMPHandlerFull = function() {
 					this.encounterElements.push(rule[3].trim());
 					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
 					encounterProvider = rule[2].trim();
-					console.log(encounterProvider);
+					//console.log(encounterProvider);
 					this.report(encounterProvider,this.badgeCounter);
 					return encounterProvider;
 				}
@@ -60,7 +61,7 @@ const CMPHandlerFull = function() {
 
 		report : function(name,count) {
 			let event = new CustomEvent('sendcmpinfo', {detail: {provider: name, counter: count}});
-			console.log(event);
+			//console.log(event);
 			document.dispatchEvent(event);
 		},
 
@@ -75,7 +76,7 @@ const CMPHandlerFull = function() {
 	};
 
     document.addEventListener('DOMContentLoaded', () => {
-		console.log('CMP-Handler Activated.')
+		console.log('CMP-Handler for Consent Dialogues Activated.')
 		Blocker.init();
 	});
 }();

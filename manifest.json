@@ -1,14 +1,21 @@
 {
-	"name": "ConsentRight",
+	"name": "Consent Right",
 	"description": "Consent Dialogues? Rightly Handled.",
-	"version": "0.9.5",
+	"version": "0.9.7",
 	"manifest_version": 2,
 	"options_ui":{
 		"page": "dashboard.html",
 		"open_in_tab": true
 	},
 	"background": {
-		"scripts": ["javascript/utils.js", "javascript/background.js", "javascript/full.js", "javascript/allow.js", "javascript/li.js", "javascript/toggles.js"],
+		"scripts": [
+			"javascript/utils.js", 
+			"javascript/background.js", 
+			"javascript/full.js", 
+			"javascript/allow.js", 
+			"javascript/toggles.js",
+			"javascript/li.js"
+		],
 		"persistent": true
 	},
 	"content_scripts": [
@@ -27,11 +34,9 @@
 		"default_popup": "popup.html"
 	},
 	"permissions": [
-		"activeTab",
+		"<all_urls>",
 		"storage",
-		"unlimitedStorage",
-		"tabs",
-		"<all_urls>"
+		"tabs"
 	],
 	"web_accessible_resources": [
 		"javascript/full.js",

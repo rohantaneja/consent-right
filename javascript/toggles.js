@@ -54,21 +54,24 @@ const CMPHandlerToggles = function() {
 		},
 
 		hide : function(provider) {
-			let content = '', level;
-			// document.addEventListener(function (response, sendResponse) {
-			// 	console.log(response);
-	 		//  });
-			// document.addEventListener(function(message, sender, sendResponse) {
-			// 	if(message.action == 'message:set-Level')
-			// 	console.log(message.level);
-	  		// });
-
-			//console.log(level);
+			let content = ''
+			
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
 				if (rule) {
 					content += this.content.remove(rule[3].trim());
+					// Temp OT
+					var ottoggles = setInterval(function()	{
+						if(document.querySelector("#onetrust-pc-sdk .ot-tgl input:checked+.ot-switch .ot-switch-nob")) {
+							var x = document.querySelectorAll(".category-switch-handler");
+							for (var i = 0; i < x.length; i++){
+								console.log(x[i]);
+								x[i].click();
+							}
+							clearInterval(ottoggles);
+						}
+					},1000);
 				}
 			}
 			return content;
@@ -76,7 +79,7 @@ const CMPHandlerToggles = function() {
 
 		report : function(name,count) {
 			let event = new CustomEvent('sendcmpinfo', {detail: {provider: name, counter: count}});
-			console.log(event);
+			//console.log(event);
 			document.dispatchEvent(event);
 		},
 
@@ -91,7 +94,7 @@ const CMPHandlerToggles = function() {
 	};
 
     document.addEventListener('DOMContentLoaded', () => {
-		console.log('CMP-Handler Activated.')
+		console.log('CMP-Handler for Consent Toggles Activated.')
 		Blocker.init();
 	});
 }();

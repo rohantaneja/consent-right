@@ -91,7 +91,7 @@ Browser.runtime.onMessage.addListener(function(message, sender, sendResponse) {
                             {
                             if (crSettings['crEnabled'] === false) {sendResponse({extensionStatus: false});}
                             else {let isUrlwListed = utils.checkWhiteList(utils.getDomain(message.url), crSettings['crWList']); 
-                            console.log(crSettings['crLevel']);
+                            //console.log(crSettings['crLevel']);
                             sendResponse({extensionStatus: !isUrlwListed, level: crSettings['crLevel']});}
                             }
                             break;

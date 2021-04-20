@@ -6,8 +6,8 @@ const CMPHandlerLI = function() {
 	const Blocker = {
 		list: [
 			/* Legitimate Interests */	
-			'(li,QuantCast CMP,div[class="qc-cmp2-toggle-switch"])',
-			//'(li,QuantCast CMP,.qc-cmp2-buttons-desktop button[mode="secondary"])'
+			'(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
+			//'(li,OneTrust Consent,.ot-leg-btn-container)'
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -31,9 +31,7 @@ const CMPHandlerLI = function() {
 			//console.log('encounterProvider');
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
-				if (rule  
-					&& 
-					document.querySelector(rule[3].trim())) 
+				if (rule && document.querySelector(rule[3].trim())) 
 					{
 					this.encounterElements.push(rule[3].trim());
 					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
@@ -52,15 +50,19 @@ const CMPHandlerLI = function() {
 				//console.log(provider);
 				if (rule) {
 							content += this.content.remove(rule[3].trim());
-							setTimeout(function()	{
-								if(!document.querySelector(".qc-cmp2-list-item-legitimate")) {
-									return;
-								}
-								else
-								{
+							var qc_li = setInterval(function()	{
+								if(document.querySelector(".qc-cmp2-list-item-legitimate")) {
 									document.querySelector(".qc-cmp2-buttons-desktop button[mode='secondary']").click();
+									clearInterval(qc_li);
 								}
-							},6000);
+							},1000);
+							var ot_li = setInterval(function()	{
+								var toggle = document.querySelectorAll(".ot-obj-leg-btn-handler");
+								for (var i = 0; i < toggle.length; i++)	{
+									toggle[i].click();
+								}
+								clearInterval(ot_li);
+							},1000);
 				}
 			}
 			return content;
@@ -68,7 +70,7 @@ const CMPHandlerLI = function() {
 
 		report : function(name,count) {
 			let event = new CustomEvent('sendcmpinfo', {detail: {provider: name, counter: count}});
-			console.log(event);
+			//console.log(event);
 			document.dispatchEvent(event);
 		},
 
@@ -83,7 +85,7 @@ const CMPHandlerLI = function() {
 	};
 
     document.addEventListener('DOMContentLoaded', () => {
-		console.log('CMP-Handler Activated.')
+		console.log('CMP-Handler for Legitimate Interests Activated.')
 		Blocker.init();
 	});
 }();

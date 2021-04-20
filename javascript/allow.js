@@ -6,7 +6,7 @@ const CMPHandlerAllow = function() {
 		list: [
 			/* Allow Buttons */
 			"(allow,OneTrust Consent,button#onetrust-accept-btn-handler)",
-			"(allow,OneTrust Consent,#accept-recommended-btn-handler)",
+			"(allow,OneTrust Consent,#onetrust-pc-sdk #accept-recommended-btn-handler)",
 			"(allow,Cookie Wall, button[data-testid='cookie-wall-accept'])",
 			"(allow,Europa Data Protection,button.edp-cookies-accept)",
 			"(allow,GDPR.eu Proton Technologies,a#cn-accept-cookie)",
@@ -17,7 +17,7 @@ const CMPHandlerAllow = function() {
 			"(allow,Stack Exchange Cookie,.js-accept-cookies)",
 			"(allow,IEEE Cookie Banner,.cc-compliance)",
 			"(allow,w3Schools Consent,#accept-choices)",
-			"(allow,Google Consent,div[class='jyfHyd'])",
+			"(allow,Google Consent,.jyfHyd)",
 			"(allow,DSCH.ie Cookie Modal,button[data-tracking='cc-accept'])"
 		],
 
@@ -67,7 +67,7 @@ const CMPHandlerAllow = function() {
 
 		report : function(name,count) {
 			let event = new CustomEvent('sendcmpinfo', {detail: {provider: name, counter: count}});
-			console.log(event);
+			//console.log(event);
 			document.dispatchEvent(event);
 		},
 
@@ -82,7 +82,7 @@ const CMPHandlerAllow = function() {
 	};
 
     document.addEventListener('DOMContentLoaded', () => {
-		console.log('CMP-Handler Activated.')
+		console.log('CMP-Handler for Allow Toggles Activated.')
 		Blocker.init();
 	});
 }();
