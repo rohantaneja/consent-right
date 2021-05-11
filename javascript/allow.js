@@ -17,7 +17,7 @@ const CMPHandlerAllow = function() {
 			"(allow,Stack Exchange Cookie,.js-accept-cookies)",
 			"(allow,IEEE Cookie Banner,.cc-compliance)",
 			"(allow,w3Schools Consent,#accept-choices)",
-			"(allow,Google Consent,.jyfHyd)",
+			"(allow,Google Consent,#zV9nZe)",
 			"(allow,DSCH.ie Cookie Modal,button[data-tracking='cc-accept'])"
 		],
 
@@ -54,11 +54,11 @@ const CMPHandlerAllow = function() {
 		},
 
 		hide : function(provider) {
-			let content = '';
+			let content = '\n';
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
-				if (rule) {
+				if (rule && rule[2].trim() == provider) {
 					content += this.content.remove(rule[3].trim());
 				}
 			}
@@ -74,9 +74,6 @@ const CMPHandlerAllow = function() {
 		content : {
 			remove : function(element) {
 				return element + ' {display: none!important;}' + '\n';
-			},
-			scroll : function(element) {
-				return element + ' {overflow: auto!important;}' + '\n';
 			}
 		}
 	};

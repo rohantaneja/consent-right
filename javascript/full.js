@@ -7,11 +7,16 @@ const CMPHandlerFull = function() {
 		list: [
 			/* Full Removal */
 			"(full,OneTrust Consent, #onetrust-consent-sdk)",
+			"(full,OneTrust Consent, #onetrust-banner-sdk)",
 			"(full,Google Consent,div[role='dialog'])",
 			"(full,QuantCast CMP, div[data-testid='cookie-wall-modal'])",
 			"(full,QuantCast CMP, .qc-cmp2-container)",
 			"(full,DSCH.ie Cookie Modal, #js-cookie-consent)",
+			"(full,StackOverFlow Consent, .js-consent-banner)",
 			"(full,Didomi, #didomi-popup)",
+			"(full,Facebook Consent, div[data-testid='cookie-policy-dialog'])",
+			"(full,TrustArc, div[class='truste_overlay'])",
+			"(full,VK Consent, .cookies_policy_wrap)"
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -28,34 +33,29 @@ const CMPHandlerFull = function() {
 		},
 
 		check : function() {
-			let encounterProvider = '';
-			//console.log('encounterProvider');
+			let encounterProvider = 'None';
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				if (rule  
-					&& 
-					document.querySelector(rule[3].trim())) 
-					{
+					&& document.querySelector(rule[3].trim())) {
 					this.encounterElements.push(rule[3].trim());
 					this.badgeCounter += document.querySelectorAll(rule[3].trim()).length;
 					encounterProvider = rule[2].trim();
-					//console.log(encounterProvider);
 					this.report(encounterProvider,this.badgeCounter);
-					return encounterProvider;
 				}
 			}
-			return 'None';
+			return encounterProvider;
 		},
 
 		hide : function(provider) {
-			let content = '';
+			let content = '\n';
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				if (rule) {
 							content += this.content.remove(rule[3].trim());
-							content += this.content.scroll('body');
 				}
 			}
+			content += this.content.scroll('body'); // restore scroll
 			return content;
 		},
 
@@ -70,7 +70,7 @@ const CMPHandlerFull = function() {
 				return element + ' {display: none!important;}' + '\n';
 			},
 			scroll : function(element) {
-				return element + ' {overflow: auto!important;}' + '\n';
+				return element + ' {overflow: auto!important;}';
 			}
 		}
 	};

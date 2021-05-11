@@ -7,7 +7,7 @@ const CMPHandlerLI = function() {
 		list: [
 			/* Legitimate Interests */	
 			'(li,QuantCast CMP,.qc-cmp2-list-item-legitimate div[class="qc-cmp2-toggle-switch"])',
-			//'(li,OneTrust Consent,.ot-leg-btn-container)'
+			'(li,OneTrust Consent,.ot-leg-btn-container)'
 		],
 
 		ruleMatcher : /^!?\(([^|]+)\,([^\]]+)\,(.+)\)$/,
@@ -44,7 +44,7 @@ const CMPHandlerLI = function() {
 		},
 
 		hide : function(provider) {
-			let content = '';
+			let content = '\n';
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
 				//console.log(provider);
@@ -77,9 +77,6 @@ const CMPHandlerLI = function() {
 		content : {
 			remove : function(element) {
 				return element + ' {display: none!important;}' + '\n';
-			},
-			scroll : function(element) {
-				return element + ' {overflow: auto!important;}' + '\n';
 			}
 		}
 	};

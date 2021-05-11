@@ -4,6 +4,9 @@
     --font-color-primary: white;
     --button-blue: #00B0FF;
     --button-green: #00ff00;
+    --button-dark-green: #387a26;
+    --button-violet: #3d5afe;
+    --button-orange: #ff8c00;
     --button-red: #B00020;
     --text-size: 16px;
     user-select: none;
@@ -177,18 +180,18 @@ input[type=checkbox]:checked + label:hover {
 }
 
 #add-wlist {
-    background-color: #00B0FF; 
+    background-color: var(--button-blue); 
     color: white;
-    border: 1px solid #00B0FF;
+    border: 1px solid var(--button-blue);
 }
 #rm-wlist {
-    background-color: #ff8c00; 
+    background-color: var(--button-orange); 
     color: black;
-    border: 1px solid #ff8c00;
+    border: 1px solid var(--button-orange);
 }
 
 .blocked-nos {
-    background-color: #3d5afe; 
+    background-color: var(--button-violet); 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;
@@ -196,7 +199,7 @@ input[type=checkbox]:checked + label:hover {
 }
 
 .blocked-cmp {
-    background-color: #B00020; 
+    background-color: var(--button-red); 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;
@@ -204,7 +207,7 @@ input[type=checkbox]:checked + label:hover {
 }
 
 .active-url {
-    background-color: #387a26; 
+    background-color: var(--button-dark-green); 
     padding: 4px;
     font-size: 10px;
     border-radius: 5px;

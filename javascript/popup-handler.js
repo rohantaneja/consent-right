@@ -7,7 +7,10 @@ const PopupHandler = function () {
         utils = Browser.extension.getBackgroundPage().utils;
         initWhitelistStatus();
 
-        document.getElementById("dashboard").onclick = () => {Browser.runtime.openOptionsPage();};
+        document.getElementById("dashboard").onclick = () => {
+            Browser.runtime.openOptionsPage();
+        };
+        
         document.getElementById('toggle-on').onclick = () => {
                 Browser.runtime.sendMessage({action:'toggle:enable-extension'});
                 Browser.extension.getBackgroundPage().updateIcon(true);
@@ -123,16 +126,13 @@ const PopupHandler = function () {
             if(!tabs) return;
             let ctab = tabs[0];
             if (utils.isSpecialTab(ctab)) {
-                document.querySelector('.active-url').innerText = 'Special Tab';
+                document.querySelector('.status').style.display = 'block';
+                document.querySelector('.status-text').innerText = 'The extension is disabled on special tab.';
                 document.getElementById('toggle-off').style.display = 'none';
                 document.getElementById('toggle-on').style.display = 'none';
                 document.querySelector('.rules').style.display = 'none';
-                document.querySelector('.status').style.display = '';
                 document.querySelector('.ext-control').style.display ='none';
-                document.querySelector('#add-wlist').style.display ='none';
-                document.querySelector('#rm-wlist').style.display ='none';
-                document.querySelector('.blocked-cmp').style.display ='none';
-                document.querySelector('.alt-heading').style.display ='none';
+                document.querySelector('.act-mon').style.display ='none';
                 return;
             }
 

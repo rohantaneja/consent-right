@@ -9,7 +9,7 @@ const CMPHandlerToggles = function() {
 			"(consent,OneTrust Consent,label.ot-switch)",
 			"(consent,OneTrust Consent,div.ot-toggle)",
 			"(consent,QuantCast CMP,.qc-cmp2-toggle-switch button[aria-label='Consent toggle'])",
-			//"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
+			"(consent,QuantCast CMP,.qc-cmp2-consent-list)",
 			"(consent,Stack Exchange Cookie,.s-toggle-switch)",
 			"(consent,IEEE Cookie Banner,.cc-window)",
 			"(consent,Google Consent,button[aria-label='Turn on Search customization'])",
@@ -54,7 +54,7 @@ const CMPHandlerToggles = function() {
 		},
 
 		hide : function(provider) {
-			let content = ''
+			let content = '\n';
 			
 			for (const item of this.list)	{
 				let rule = item.match(this.ruleMatcher);
@@ -62,14 +62,23 @@ const CMPHandlerToggles = function() {
 				if (rule) {
 					content += this.content.remove(rule[3].trim());
 					// Temp OT
-					var ottoggles = setInterval(function()	{
-						if(document.querySelector("#onetrust-pc-sdk .ot-tgl input:checked+.ot-switch .ot-switch-nob")) {
-							var x = document.querySelectorAll(".category-switch-handler");
+					var ot_toggles = setInterval(function()	{
+						if(document.querySelector("#onetrust-pc-sdk")) {
+							var x = document.querySelectorAll(".category-switch-handler[aria-checked='true']");
 							for (var i = 0; i < x.length; i++){
-								console.log(x[i]);
 								x[i].click();
 							}
-							clearInterval(ottoggles);
+							clearInterval(ot_toggles);
+						}
+					},1000);
+					
+					var qc_toggles = setInterval(function()	{
+						if(document.querySelector(".qc-cmp2-container")) {
+							var x = document.querySelectorAll(".qc-cmp2-toggle-switch button[aria-checked='true']");
+							for (var i = 0; i < x.length; i++){
+								x[i].click();
+							}
+							clearInterval(qc_toggles);
 						}
 					},1000);
 				}
@@ -86,9 +95,6 @@ const CMPHandlerToggles = function() {
 		content : {
 			remove : function(element) {
 				return element + ' {display: none!important;}' + '\n';
-			},
-			scroll : function(element) {
-				return element + ' {overflow: auto!important;}' + '\n';
 			}
 		}
 	};
