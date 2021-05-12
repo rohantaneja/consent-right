@@ -1,7 +1,0 @@
-[
-    {
-    "mode": "li",
-    "provider": "QuantCast CMP",
-    "selector": ".qc-cmp2-list-item-legitimate div[class='qc-cmp2-toggle-switch']"
-    }
-]
